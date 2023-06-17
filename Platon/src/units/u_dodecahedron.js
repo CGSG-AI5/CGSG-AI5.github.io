@@ -308,7 +308,7 @@ export function renderDod() {
     _matr4.mulmatr(
       _matr4.mulmatr(
         _matr4.rotateY(47 * myTimer.localTime * 0),
-        _matr4.scale(_vec3.set(1.5, 1.5, 1.5))
+        _matr4.scale(_vec3.set(1 / _vec3.len(_vec3.set(0.14907119849998599, -0.6314757303333053, 0.4587939734903912)),1 / _vec3.len(_vec3.set(0.14907119849998599, -0.6314757303333053, 0.4587939734903912)),1 / _vec3.len(_vec3.set(0.14907119849998599, -0.6314757303333053, 0.4587939734903912))))
       ),
       _matr4.rotateY(80 * myTimer.localTime * 0)
     ),
