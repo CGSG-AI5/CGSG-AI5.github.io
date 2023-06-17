@@ -19,18 +19,18 @@
         });
         window.addEventListener("mousedown", (e) => {
             IsPressMouse = true;                     	
-            let dx = (x1 - x0) / 4.0, dy = (y1 - y0) / 4.0;
-            x0 += dx * (e.offsetX / 250.0  - 2.0);
-            x1 += dx * (e.offsetX / 250.0 - 2.0);
-            y0 += dy * (e.offsetY / -250.0 + 2.0);
-            y1 += dy * (e.offsetY / -250.0 + 2.0);
+            // let dx = (x1 - x0) / 4.0, dy = (y1 - y0) / 4.0;
+            // x0 += dx * (e.offsetX / 250.0  - 2.0);
+            // x1 += dx * (e.offsetX / 250.0 - 2.0);
+            // y0 += dy * (e.offsetY / -250.0 + 2.0);
+            // y1 += dy * (e.offsetY / -250.0 + 2.0);
 
-            console.log("deltaX:" + (e.offsetX / 250.0 - 2.0) + "\ndeltaY:" + (e.offsetY / -250.0 + 2.0))
+            // console.log("deltaX:" + (e.offsetX / 250.0 - 2.0) + "\ndeltaY:" + (e.offsetY / -250.0 + 2.0))
 
-            x0 += dx;
-            x1 -= dx;
-            y0 += dy;
-            y1 -= dy;
+            // x0 += dx;
+            // x1 -= dx;
+            // y0 += dy;
+            // y1 -= dy;
 
 
         });
@@ -50,6 +50,14 @@
             console.log("X0:" + x0 + " X1:" + x1);
         });
         window.addEventListener("wheel", (e) => {
+            let dx = (x1 - x0) / 12.0, dy = (y1 - y0) /12.0;
+
+            x0 += dx * (e.offsetX / 250.0  - 2.0);
+            x1 += dx * (e.offsetX / 250.0 - 2.0);
+            y0 += dy * (e.offsetY / -250.0 + 2.0);
+            y1 += dy * (e.offsetY / -250.0 + 2.0);
+
+
             x0 += (x1 - x0) *  0.001 * e.deltaY;
             x1 -= (x1 - x0) *  0.001 * e.deltaY;
             y0 += (y1 - y0) *  0.001 * e.deltaY;

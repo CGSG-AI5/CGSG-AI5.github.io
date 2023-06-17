@@ -47,43 +47,6 @@ const fs = `#version 300 es
         highp float n, mouseOtX = mouseX / 500.0 - 1.0, mouseOtY = mouseY / 500.0 + 1.0;
         highp vec2 Z, Z0, C = vec2(0.35 + 0.08 * sin(time + 3.0), 0.39 + 0.08 * sin(1.1 * time));
         
-
-
-        if (mouseOtX - color.x < 0.1 && mouseOtX - color.x > -0.1 &&
-            mouseOtY - color.y < 0.1 && mouseOtY - color.y > -0.1 || 1 == 0) 
-        {  
-            highp float dx = (x1 - x0) / 4.0, dy = (y1 - y0) / 4.0, X0 = x0, Y0 = y0, X1 = x1, Y1 = y1;
-           
-           X0 += dx * (mouseX / 250.0 - 2.0) + 1.0 *  dx;
-           X1 += dx * (mouseX / 250.0 - 2.0) - 1.0 * dx;
-           Y1 += dy * (mouseY / -250.0 + 2.0) - 1.0 * dy;
-           Y0 += dy * (mouseY / -250.0 + 2.0) + 1.0 * dy;
-           
-          dx = (X1 - X0) / 4.0;
-          dy = (Y1 - Y0) / 4.0;
-
-           X0 -= dx * (mouseX / 250.0 - 2.0);
-           X1 -= dx * (mouseX / 250.0 - 2.0);
-           Y1 -= dy * (mouseY / -250.0 + 2.0);
-           Y0 -= dy * (mouseY / -250.0 + 2.0);
-
-           Z0 = vec2(gl_FragCoord.x * (X1 - X0) / 1000.0 + X0, gl_FragCoord.y * (Y1 - Y0) / 1000.0 + Y0); 
-          
-           Z = Z0;
-           n = 0.0;
-
-           while (n < 255.0 && Z.x * Z.x + Z.y * Z.y < 4.0)
-           {
-               Z = vec2(Z.x * Z.x - Z.y * Z.y + C.x, Z.x * Z.y + Z.y * Z.x + C.y);
-               n++;
-           }
-
-           o_color = vec4(n * 2.0 / 255.0, n * 8.0 / 255.0, n * 4.0 / 255.0, 1);
-           //o_color = vec4(1, 1, 1, 1);
-           
-           return;
-        }
-
         Z0 = vec2(gl_FragCoord.x * (x1 - x0) / 1000.0 + x0, gl_FragCoord.y * (y1-y0) / 1000.0 + y0);
         
         Z = Z0;
