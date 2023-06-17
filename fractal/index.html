@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<head> 
+    <meta charset = "UTF_8">
+    <title> my first page </title>
+    <link rel="stylesheet" href = "styles.css">
+
+</head>
+
+<body>
+    <canvas 
+        id = 'glCanvas'
+        width = '1000 px'
+        height = "1000 px"
+        style = "border: 1px solid red;"></canvas>
+    <script src = "main.js"></script>
+    <script type="text/javascript">
+        window.addEventListener("keydown", (e) => {
+            if (e.keyCode == 65)  IsPause = !IsPause;
+        });
+        window.addEventListener("mousedown", (e) => {
+            IsPressMouse = true;                     	
+            let dx = (x1 - x0) / 4.0, dy = (y1 - y0) / 4.0;
+            x0 += dx * (e.offsetX / 250.0  - 2.0);
+            x1 += dx * (e.offsetX / 250.0 - 2.0);
+            y0 += dy * (e.offsetY / -250.0 + 2.0);
+            y1 += dy * (e.offsetY / -250.0 + 2.0);
+
+            console.log("deltaX:" + (e.offsetX / 250.0 - 2.0) + "\ndeltaY:" + (e.offsetY / -250.0 + 2.0))
+
+            x0 += dx;
+            x1 -= dx;
+            y0 += dy;
+            y1 -= dy;
+
+
+        });
+        window.addEventListener("mouseup", (e) => {
+            IsPressMouse = false;
+        });
+        window.addEventListener("mousemove", (e) => {
+            if (IsPressMouse) {
+                x0 += (x0 - x1) * e.movementX / 1000;
+                x1 += (x0 - x1) * e.movementX / 1000;
+                y0 += (y1 - y0) * e.movementY / 1000;
+                y1 += (y1 - y0) * e.movementY / 1000;
+            }
+            mouseX = e.offsetX;
+            mouseY = -e.offsetY;
+            console.log("X:" + e.offsetX + " Y:" + e.offsetY);
+            console.log("X0:" + x0 + " X1:" + x1);
+        });
+        window.addEventListener("wheel", (e) => {
+            x0 += (x1 - x0) *  0.001 * e.deltaY;
+            x1 -= (x1 - x0) *  0.001 * e.deltaY;
+            y0 += (y1 - y0) *  0.001 * e.deltaY;
+            y1 -= (y1 - y0) *  0.001 * e.deltaY;
+        });
+    </script>
+    <div>
+        <p>My first page</p>
+    </div>  
+</body>
+</html>
