@@ -95,7 +95,7 @@ vec3 Clamp( vec3 a )
 
 float distance_from_sphere(in vec3 p, in mat4 m, float r )
 {
-    vec3 q = (inverse(m) * vec4(p, 1.0)).xyz;
+    vec3 q = (m * vec4(p, 1.0)).xyz;
     return length(q) - r;
 }
 
@@ -103,33 +103,33 @@ float distance_from_sphere(in vec3 p, in mat4 m, float r )
 
 float distance_from_box( in vec3 p, in mat4 m, in vec3 b )
 {
-  vec3 q = (inverse(m) * vec4(p, 1.0)).xyz;
+  vec3 q = (m * vec4(p, 1.0)).xyz;
   return length(max(abs(q) - b, 0.0));
 }
 
 float distance_from_round_box( in vec3 p, in mat4 m, in vec3 b, float r )
 {
-  vec3 q = (inverse(m) * vec4(p, 1.0)).xyz;
+  vec3 q = (m * vec4(p, 1.0)).xyz;
   return length(max(abs(q) - b, 0.0)) - r;
 }
 
 float distance_from_torus( vec3 p, in mat4 m, vec2 t )
 {
-  vec3 q = (inverse(m) * vec4(p, 1.0)).xyz;
+  vec3 q = (m * vec4(p, 1.0)).xyz;
   vec2 a = vec2(length(q.xz) - t.x, q.y);
   return length(a) - t.y;
 }
 
 float distance_from_cone( vec3 p, in mat4 m, vec2 c )
 {
-  vec3 q = (inverse(m) * vec4(p, 1.0)).xyz;
+  vec3 q = (m * vec4(p, 1.0)).xyz;
   float t = length(q.xy);
   return dot(c,vec2(t,q.z));
 }
 
 float plane( vec3 p, in mat4 m, vec4 n )
 {
-  vec3 q = (inverse(m) * vec4(p, 1.0)).xyz;
+  vec3 q = (m * vec4(p, 1.0)).xyz;
   return dot(q, n.xyz) + n.w;
 }
 
@@ -163,34 +163,9 @@ DataRes map_the_world(in vec3 p)
     {
       //d = distance_from_sphere(p, Shapes[i].Matr, Shapes[i].Obj[0][0]);
       d = mix(d, distance_from_sphere(p, Shapes[i].Matr, Shapes[i].Obj[0][0]), float(Shapes[i].TypeSurface.x == 0.0));
-      d = mix(d, distance_from_box(p, Shapes[i].Matr, vec3(Shapes[i].Obj[0][0], Shapes[i].Obj[0][1], Shapes[i].Obj[0][2])), float(Shapes[i].TypeSurface.x == 1.0));
-      d = mix(d, distance_from_round_box(p, Shapes[i].Matr, vec3(Shapes[i].Obj[0][0], Shapes[i].Obj[0][1], Shapes[i].Obj[0][2]), Shapes[i].Obj[0][3]), float(Shapes[i].TypeSurface.x == 2.0));
-      d = mix(d, distance_from_torus(p, Shapes[i].Matr, vec2(Shapes[i].Obj[0][0], Shapes[i].Obj[0][1])), float(Shapes[i].TypeSurface.x == 3.0));
-      //d = mix(d, distance_from_sphere(p, Shapes[i].Matr, Shapes[i].Obj[0][0]), float(Shapes[i].TypeSurface.x == 0.0));
-      //switch(int(Shapes[i].TypeSurface.x))
-      //{
-      //case Sphere:
-      //  d = distance_from_sphere(p, Shapes[i].Matr, Shapes[i].Obj[0][0]);
-      //  break;
-      //case Cube:
-      //  d = distance_from_box(p, Shapes[i].Matr, vec3(Shapes[i].Obj[0][0], Shapes[i].Obj[0][1], Shapes[i].Obj[0][2]));
-      //  break;
-      //case RoundCube:
-      //  d = distance_from_round_box(p, Shapes[i].Matr, vec3(Shapes[i].Obj[0][0], Shapes[i].Obj[0][1], Shapes[i].Obj[0][2]), Shapes[i].Obj[0][3]);
-      //  break;
-      //case Torus:
-      //  d = distance_from_round_box(p, Shapes[i].Matr, vec3(Shapes[i].Obj[0][0], Shapes[i].Obj[0][1], Shapes[i].Obj[0][2]), Shapes[i].Obj[0][3]);
-      //  break;
-      //case Cylinder:
-      //  d = distance_from_round_box(p, Shapes[i].Matr, vec3(Shapes[i].Obj[0][0], Shapes[i].Obj[0][1], Shapes[i].Obj[0][2]), Shapes[i].Obj[0][3]);
-      //  break;
-      //case Cone:
-      //  d = distance_from_round_box(p, Shapes[i].Matr, vec3(Shapes[i].Obj[0][0], Shapes[i].Obj[0][1], Shapes[i].Obj[0][2]), Shapes[i].Obj[0][3]);
-      //  break;
-      //case Plane:
-      //  d = plane(p, Shapes[i].Matr, vec4(Shapes[i].Obj[0][0], Shapes[i].Obj[0][1], Shapes[i].Obj[0][2], Shapes[i].Obj[0][3]));
-      //  break;
-      //}
+      //d = mix(d, distance_from_box(p, Shapes[i].Matr, vec3(Shapes[i].Obj[0][0], Shapes[i].Obj[0][1], Shapes[i].Obj[0][2])), float(Shapes[i].TypeSurface.x == 1.0));
+      //d = mix(d, distance_from_round_box(p, Shapes[i].Matr, vec3(Shapes[i].Obj[0][0], Shapes[i].Obj[0][1], Shapes[i].Obj[0][2]), Shapes[i].Obj[0][3]), float(Shapes[i].TypeSurface.x == 2.0));
+      //d = mix(d, distance_from_torus(p, Shapes[i].Matr, vec2(Shapes[i].Obj[0][0], Shapes[i].Obj[0][1])), float(Shapes[i].TypeSurface.x == 3.0));
       R.Surf = mix(R.Surf, Surfaces[int(Shapes[i].TypeSurface.y)], float(d < dist));
       R.d = dist = min(d, dist);
     }

@@ -157,7 +157,9 @@ export function parser(Txt: string) {
         if (x == null) continue;
         Scale = _matr4.scale(x);
 
-        Sph.Matrix = _matr4.mulmatr(_matr4.mulmatr(Scale, Rot), Trans);
+        Sph.Matrix = _matr4.inverse(
+          _matr4.mulmatr(_matr4.mulmatr(Scale, Rot), Trans)
+        );
 
         let index = 0;
         for (let element of Surfaces) {
