@@ -8,7 +8,8 @@ export function TextFetchComponent() {
            repository_name: '',
            url_repository: '',
            description: '',
-           image: ''
+           image: '',
+           id: 0
         }
     ]);
     const [showText, setShowText] = useState(false);
@@ -28,11 +29,14 @@ export function TextFetchComponent() {
                 repository_name: '',
                 url_repository: '',
                 description: '',
-                image: ''
+                image: '',
+                id: 0
             }
         ];
         Str.length = 0;
         let page = 1;
+
+        let num = 0
         while(true){
             const url = 
             'https://api.github.com/search/repositories?q=' + name + "&page=" + page++;
@@ -45,7 +49,7 @@ export function TextFetchComponent() {
 
             for (let element of li){
                 Str.push({login: element["owner"]["login"], url_login: element["owner"]["html_url"], repository_name: element["full_name"], url_repository: element["html_url"],
-                    description:element["description"], image:element["owner"]["avatar_url"]})
+                    description:element["description"], image:element["owner"]["avatar_url"], id: num++})
             }
          } 
         
@@ -87,7 +91,7 @@ export function TextFetchComponent() {
     function displayFechedText() {
         return fetchedText.map((text) => {
             return (
-            <div>
+            <div key={text.id}>
                 <p>Login: <a href={text.url_login}>{text.login}</a></p>
                 <p>Repository: <a href={text.url_repository}>{text.repository_name}</a></p>
                 <p>Description: {text.description}</p>
