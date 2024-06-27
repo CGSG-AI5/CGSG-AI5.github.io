@@ -39,7 +39,7 @@ export function TextFetchComponent() {
             const response = await fetch(url);
             const data: any = await response.json(); 
 
-            if (data["items"].length == 0)
+            if (data["items"] ==  undefined)
                 break;
             const li = data["items"];
 
@@ -97,12 +97,6 @@ export function TextFetchComponent() {
         });
     }
 
-    // function onchange(target: any) {
-    //     let val = target.value;
-    //     console.log(val);
-    //     setMyInput(val);
-    // }
-
     function handleChange(event : any) {
         setName(event.target.value);
         console.log(name);
@@ -118,8 +112,3 @@ export function TextFetchComponent() {
         </div>    
     );
 }
-    
-            /* 
-            
-            {showText ? displayFechedText(): <></>}
-            <button onClick={onFetchTextButtonClick}>Fetch me</button> */
